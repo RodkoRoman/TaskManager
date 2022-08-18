@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TaskDto {
 
-    private UUID taskId;
+    private UUID id;
     private String name;
     private String description;
     private Instant createdAt;
