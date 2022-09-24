@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.util.*;
 
-
 @RequiredArgsConstructor
 public class EntityManagerTaskService implements TaskService {
 
@@ -21,7 +20,8 @@ public class EntityManagerTaskService implements TaskService {
     @Override
     @Transactional
     public TaskEntity createTask(TaskDto taskDto) {
-        TaskEntity taskEntity = new TaskEntity(UUID.randomUUID(),
+        TaskEntity taskEntity = new TaskEntity(
+                UUID.randomUUID(),
                 taskDto.getName(),
                 taskDto.getDescription(),
                 Instant.now(),
