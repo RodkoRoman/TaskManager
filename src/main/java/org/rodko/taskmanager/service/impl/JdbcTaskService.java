@@ -20,7 +20,7 @@ public class JdbcTaskService implements TaskService {
 
     {
         try {
-            String URL = "jdbc:postgresql://localhost:5433/task_manager";
+            String URL = "jdbc:postgresql://localhost:5432/task_manager";
             String USERNAME = "postgres";
             String PASSWORD = "postgres";
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
