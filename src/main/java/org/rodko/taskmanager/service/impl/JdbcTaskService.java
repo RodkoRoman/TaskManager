@@ -13,13 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Service
 @RequiredArgsConstructor
 public class JdbcTaskService implements TaskService {
 
-    private final JdbcTaskService jdbcTaskService;
-
-    Connection connection; //Нужно закрывать???
+    Connection connection;
 
     {
         try {
@@ -43,7 +40,6 @@ public class JdbcTaskService implements TaskService {
         TaskEntity taskEntity = new TaskEntity();
         UUID uuid = UUID.randomUUID();
         try {
-//            Statement statement = connection.createStatement();
             String sqlCreate = "INSERT INTO task_manager (id, name, description, createAt, isDeleted) " +
                     "Values (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlCreate);
@@ -53,16 +49,8 @@ public class JdbcTaskService implements TaskService {
             preparedStatement.setObject(4, Instant.now());
             preparedStatement.setBoolean(5, false);
 
-//            String SQL = "INSERT INTO task_manager VALUES("
-//                    + uuid + ", "
-//                    + "'" + taskDto.getName() + "'" + ", "
-//                    + "'" + taskDto.getDescription() + "'" + ", "
-//                    + Instant.now() + ", "
-//                    + "FALSE)";
-//            statement.executeUpdate(SQL);
-            Statement statement = connection.createStatement(); // тут создал объект statement т.к. в описании метода
-            // executeQuery есть примечание о запрете использования prepareStatement
-            String sqlSelectById = "SELECT id FROM task_manager WHERE id = " + uuid; //может стоит вынести за {}?
+            Statement statement = connection.createStatement();
+            String sqlSelectById = "SELECT id FROM task_manager WHERE id = " + uuid;
             ResultSet resultSet = statement.executeQuery(sqlSelectById);
 
             while (resultSet.next()) {
@@ -74,7 +62,6 @@ public class JdbcTaskService implements TaskService {
             }
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к базе данных, во время создания таблицы!" + e.getMessage());
-            System.exit(-1); //Скорее всего не нужен!?
         }
         return taskEntity;
     }
@@ -84,11 +71,11 @@ public class JdbcTaskService implements TaskService {
         TaskDto taskDto = new TaskDto();
 
         try {
-            Statement statement = connection.createStatement();                         //Встречается в приложении
-            String sqlSelectById = "SELECT id FROM task_manager WHERE id = " + taskId;  //3 раза
-            ResultSet resultSet = statement.executeQuery(sqlSelectById);                //Стоит вынести?
+            Statement statement = connection.createStatement();
+            String sqlSelectById = "SELECT id FROM task_manager WHERE id = " + taskId;
+            ResultSet resultSet = statement.executeQuery(sqlSelectById);
 
-            taskDto.setId(resultSet.getObject("id", UUID.class)); // Не нужен while т.к. 1 объект верно? ОЧЕНЬ ТУПОЙ ВОПРОС
+            taskDto.setId(resultSet.getObject("id", UUID.class));
             taskDto.setName(resultSet.getString("name"));
             taskDto.setDescription(resultSet.getString("description"));
             taskDto.setCreatedAt(resultSet.getObject("created_at", Instant.class));
@@ -96,9 +83,7 @@ public class JdbcTaskService implements TaskService {
 
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к базе данных, во время поиска задачи по ID!" + e.getMessage());
-            System.exit(-1);//Скорее всего не нужно закрывать программу!? если не получается выполнить 1 запрос? или как?
         }
-
         return taskDto;
     }
 
@@ -108,7 +93,6 @@ public class JdbcTaskService implements TaskService {
         List<TaskEntity> taskEntityList = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-
             String sqlSelect = "SELECT * FROM task_manager";
             ResultSet resultSet = statement.executeQuery(sqlSelect);
 
@@ -125,8 +109,8 @@ public class JdbcTaskService implements TaskService {
             }
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к базе данных, во время поиска задачи по ID!" + e.getMessage());
-            System.exit(-1);//Скорее всего не нужно закрывать программу!? если не получается выполнить 1 запрос? или как?
         }
+
         for (TaskEntity task : taskEntityList) {
             taskDtoList.add(new TaskDto(
                     task.getId(),
@@ -135,7 +119,6 @@ public class JdbcTaskService implements TaskService {
                     task.getCreateAt(),
                     task.getIsDeleted()));
         }
-
         return taskDtoList;
     }
 
@@ -158,7 +141,6 @@ public class JdbcTaskService implements TaskService {
             }
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к базе данных, во время обновления задачи по ID!" + e.getMessage());
-            System.exit(-1);//Скорее всего не нужно закрывать программу!? если не получается выполнить 1 запрос? или как?
         }
     }
 
@@ -174,7 +156,6 @@ public class JdbcTaskService implements TaskService {
 
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к базе данных, во время удаления задачи по ID!" + e.getMessage());
-            System.exit(-1);//Скорее всего не нужно закрывать программу!? если не получается выполнить 1 запрос? или как?
         }
     }
 

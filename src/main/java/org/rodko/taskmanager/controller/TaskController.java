@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.rodko.taskmanager.model.dto.TaskDto;
 import org.rodko.taskmanager.model.entity.TaskEntity;
 import org.rodko.taskmanager.service.TaskService;
-import org.rodko.taskmanager.service.impl.RepositoryTaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

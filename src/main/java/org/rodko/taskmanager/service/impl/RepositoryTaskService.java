@@ -5,8 +5,6 @@ import org.rodko.taskmanager.model.dto.TaskDto;
 import org.rodko.taskmanager.model.entity.TaskEntity;
 import org.rodko.taskmanager.repository.TaskRepository;
 import org.rodko.taskmanager.service.TaskService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 @RequiredArgsConstructor
 public class RepositoryTaskService implements TaskService {
 
