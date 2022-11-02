@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="rodko">
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS task_manager;
+        </sql>
+    </changeSet>
+    <changeSet id="1.0.1" author="rodko">
+        <sql>
+            CREATE TABLE task_manager.tasks
+            (
+            id              UUID            not null  PRIMARY KEY,
+            name            varchar         not null,
+            description     varchar         not null,
+            created_at      timestamp       not null,
+            is_deleted      boolean         not null
+            );
+        </sql>
+        <rollback>
+            drop table if exists task_manager.tasks;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

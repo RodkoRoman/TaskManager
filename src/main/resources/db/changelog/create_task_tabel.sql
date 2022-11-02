@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS task_manager.task
     id                          uuid PRIMARY KEY,
     name                        varchar,
     description                 varchar,
-    is_deleted                  boolean,
-    createdAt                   timestamp
+    created_at                  timestamp,
+    is_deleted                  boolean
 );

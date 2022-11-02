@@ -50,8 +50,7 @@ public class RepositoryTaskService implements TaskService {
 
         List<TaskDto> taskDtoList = new ArrayList<>();
         List<TaskEntity> taskEntityList = repository.findAll();
-        for (TaskEntity task :
-                taskEntityList) {
+        for (TaskEntity task : taskEntityList) {
             taskDtoList.add(new TaskDto(
                     task.getId(),
                     task.getName(),
